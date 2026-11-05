@@ -17,6 +17,9 @@ If you are developing a production application, we recommend using TypeScript wi
 #Features
 -Login/SignUp page
 -SignIn/SignUp form
+-Routing
+firebase setup
+deploying app to production
 -Redirect to browse page
 -Browse(After Authentication)
 
