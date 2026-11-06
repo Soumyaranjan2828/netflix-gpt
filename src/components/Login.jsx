@@ -1,17 +1,22 @@
 import { useRef, useState } from "react";
 import Header from "./Header";
+import { getAuth, updateProfile } from "firebase/auth";
 import { checkValidData } from "../Utils/Validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../Utils/firebase";
+import { useDispatch } from "react-redux";
+import { addUser } from "../Utils/userSlice";
 
 const Login = () => {
   const [signInForm, setSignInForm] = useState(true);
   const [errormessage, setErrormessage] = useState(null);
+  const dispatch = useDispatch();
   const email = useRef(null);
   const password = useRef(null);
+  const name = useRef(null);
   const handleButtonClick = () => {
     const message = checkValidData(
       email?.current?.value,
@@ -29,6 +34,28 @@ const Login = () => {
           // Signed up
           const user = userCredential.user;
           console.log(user);
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: "https://example.com/jane-q-user/profile.jpg",
+          })
+            .then(() => {
+              // Profile updated!
+              // ...
+              const { uid, displayName, photoURL, email } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                  email: email,
+                }),
+              );
+            })
+            .catch((error) => {
+              // An error occurred
+              // ...
+            });
+
           // ...
         })
         .catch((error) => {
@@ -45,7 +72,6 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          // ...
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -80,6 +106,7 @@ const Login = () => {
         {!signInForm && (
           <input
             type="text"
+            ref={name}
             placeholder="Enter Name"
             className="border-white mb-2.5 bg-gray-400 rounded-lg"
           ></input>

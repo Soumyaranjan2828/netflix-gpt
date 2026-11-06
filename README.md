@@ -20,8 +20,15 @@ If you are developing a production application, we recommend using TypeScript wi
 -Routing
 firebase setup
 deploying app to production
+implement Sign In user Api
+created Redux Store
 -Redirect to browse page
 -Browse(After Authentication)
+Implemented Sign Out
+Update Profile
+Diplay Name ad Profile pic Update
+if the user is not logged in browse to login page and vice-versa
+unsubscribed to the onAuthStateChanged callback
 
 - Header
   -MainMovie
